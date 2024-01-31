@@ -5,7 +5,7 @@ add_library(fabm_models_akvaplan OBJECT
             tracer_sed.F90
             antiparasitic.F90
             imidacloprid.F90
-            plume_hardcoded.F90
+            plume_hardcode.F90
            )
 
 add_dependencies(fabm_models_akvaplan fabm_base)
