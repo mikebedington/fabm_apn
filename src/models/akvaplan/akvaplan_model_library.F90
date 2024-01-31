@@ -9,6 +9,8 @@ module akvaplan_model_library
    use akvaplan_plume_injection
    use akvaplan_tracer_sed
    use akvaplan_antiparasitic
+   use akvaplan_imidacloprid
+   use akvaplan_plume_hardcode
 
    implicit none
 
