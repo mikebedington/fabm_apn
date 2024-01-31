@@ -35,6 +35,8 @@ contains
          case ('plume_injection'); allocate(type_plume_injection::model)
          case ('tracer_sed');      allocate(type_tracer_sed::model)
          case ('antiparasitic');   allocate(type_antiparasitic::model)
+         case ('imidacloprid');   allocate(type_imidacloprid::model)
+         case ('plume_hardcode');   allocate(type_plume_hardcode::model)
          ! Add new models here
          case default
             call self%type_base_model_factory%create(name,model)
