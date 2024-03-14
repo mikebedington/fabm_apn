@@ -108,7 +108,7 @@ contains
       _DECLARE_ARGUMENTS_DO_
       
       real(rk), parameter :: Ia = 27.0_rk        ! Lab Irradiance Wm-2 (Mould 2020)
-      real(rk), parameter :: DT50L = 15.2_rk     ! Lab Half time in hours (Mould 2020)
+      real(rk), parameter :: DT50L = 20.38_rk     ! Lab Half time in hours (Mould 2020)
       real(rk), parameter :: R = 8.3144598_rk    ! universal gas constant (J mol-1 K-1)
       real(rk), parameter :: Kelvin = 273.15_rk  ! offset between degrees Celsius and Kelvin
 
@@ -122,11 +122,11 @@ contains
          _GET_(self%id_T,T) ! temperature (degree Celsius)
          _GET_(self%id_dswr,Iz) !downwelling shortwave radiation
          !Iz = Ia !OBS hardcode for testing
-         if (Iz>1.4225_rk) then !Iz min. corresponding to t50max = ln(2)/0.002536 (Dark cond. half life) 
+         if (Iz>1.503_rk) then !Iz min. corresponding to t50max = ln(2)/0.002536 (Dark cond. half life) 
             DT50R = DT50L*(Ia/Iz)
             kphoto = LOG(2.0_rk)/DT50R 
          else
-            kphoto = 0.002536_rk !k when dark, i.e. Hydrolysis (Mould 2020)
+            kphoto = 0.001893_rk !k when dark, i.e. Hydrolysis (Mould 2020)
          endif 
          crate = -(kphoto/3600.0_rk)*exp(-kphoto/3600.0_rk) !change per second, derivative of eponential in SFO model in Mould (2020)
          ! Temperature-dependent scale factor (dimensionless) for decay rate
