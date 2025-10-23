@@ -15,7 +15,6 @@ module akvaplan_surfacelayer_input
       type (type_surface_dependency_id)    :: id_flux_in
       type (type_dependency_id)            :: id_centre_depth, id_layer_thickness 
       type (type_diagnostic_variable_id)   :: id_flux_out
-      type (type_diagnostic_variable_id)   :: id_diag1, id_diag2, id_diag3
 
       ! Parameters
       real(rk) :: d ! Target depth over which to split the flux
@@ -42,9 +41,6 @@ contains
 
       ! And output variable
       call self%register_diagnostic_variable(self%id_flux_out,'flux_out','quantity m-3 s-1','depth-explicit flux output')
-      call self%register_diagnostic_variable(self%id_diag1,'diag1','quantity m-3 s-1','diag1')
-      call self%register_diagnostic_variable(self%id_diag2,'diag2','quantity m-3 s-1','diag2')
-      call self%register_diagnostic_variable(self%id_diag3,'diag3','quantity m-3 s-1','diag3')
 
    end subroutine initialize
 
@@ -69,9 +65,6 @@ contains
             _SET_DIAGNOSTIC_(self%id_flux_out,0)
          end if
          
-         _SET_DIAGNOSTIC_(self%id_diag1,flux_in)
-         _SET_DIAGNOSTIC_(self%id_diag2,layer_thickness)
-         _SET_DIAGNOSTIC_(self%id_diag3,centre_depth) 
       _LOOP_END_
 
    end subroutine do
