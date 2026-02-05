@@ -6,22 +6,15 @@ set(DEFAULT_INSTITUTES
     au           # University of Aarhus, Denmark
     bb           # Bolding & Bruggeman - formerly Bolding & Burchard
     csiro        # Commonwealth Scientific and Industrial Research Organisation, Australia
-    ersem        # European Regional Seas Ecosystem Model, https://doi.org/10.5194/gmd-9-1293-2016
     examples     # Examples supplied with FABM itself
     gotm         # Models ported from original GOTM/BIO library
-    ihamocc      # isopycnic coordinate HAMburg Ocean Carbon Cycle model, https://doi.org/10.5194/gmd-13-2393-2020
     iow          # Leibniz Institute for Baltic Sea Research, Germany
     jrc          # EC - Joint Research Centre, Ispra, Italy
-    mops         # Model of Oceanic Pelagic Stoichiometry, https://doi.org/10.5194/gmd-8-2929-2015
     msi          # Marine Systems Institute, Tallinn University of Technology, Estonia
     nersc        # Nansen Environmental and Remote Sensing Center
     niva         # Norwegian Institute for Water Research, Norway
-    ogs          # National Institute of Oceanography and Applied Geophysics - OGS, Italy
-    pclake       # The PCLake model - reference implementation
-    pisces       # Pelagic Interactions Scheme for Carbon and Ecosystem Studies, https://doi.org/10.5194/gmd-8-2465-2015
     pml          # Plymouth Marine Laboratory, United Kingdom
     selma        # Simple EcoLogical Model for the Aquatic - PROGNOS
-    selmaprotbas # Adaptation of SELMA as described in https://doi.org/10.1002/lno.12040
     su           # Swansea University, United Kingdom
     uhh          # University of Hamburg, Germany
 )
@@ -43,14 +36,12 @@ if(FABM_INSTITUTES STREQUAL FABM_DEFAULT_INSTITUTES)
   set(FABM_DEFAULT_INSTITUTES ${DEFAULT_INSTITUTES} CACHE INTERNAL "Default institutes at the time FABM_INSTITUTES was initialized or updated automatically.")
 endif()
 
-set(FABM_EXTRA_INSTITUTES "" CACHE STRING "Additional institute directories to include during compilation")
-
 # Create fabm_library.F90 with all active institutes,
 # and set final paths to institute source directories (FABM_${INSTITUTE_UC}_DIR)
 set(FABM_LIBRARY_USE "")
 set(FABM_LIBRARY_ADD "")
 set(ACTIVE_INSTITUTES "")
-set(ALL_INSTITUTES ${FABM_INSTITUTES} ${FABM_EXTRA_INSTITUTES})
+set(ALL_INSTITUTES ${FABM_INSTITUTES})
 list(REMOVE_DUPLICATES ALL_INSTITUTES)
 foreach(institute IN LISTS ALL_INSTITUTES)
   # First retrieve the effective source directory
@@ -62,9 +53,7 @@ foreach(institute IN LISTS ALL_INSTITUTES)
     NO_DEFAULT_PATH
     NO_CMAKE_FIND_ROOT_PATH
   )
-  if(institute IN_LIST DEFAULT_INSTITUTES AND NOT institute IN_LIST OPTIONAL_INSTITUTES)
-    mark_as_advanced(FABM_${INSTITUTE_UC}_BASE)
-  endif()
+  mark_as_advanced(FABM_${INSTITUTE_UC}_BASE)
 
   if(FABM_${INSTITUTE_UC}_BASE)
     # Either a custom institute directory has been specified, or the default institute directory exists.
@@ -79,8 +68,6 @@ foreach(institute IN LISTS ALL_INSTITUTES)
       # The institute directory does not exist and it was explicitly specified (because different from default).
       message(FATAL_ERROR "Source directory ${FABM_${INSTITUTE_UC}_BASE} specified for institute ${institute} not found. Please ensure FABM_${INSTITUTE_UC}_BASE is set to a valid directory.")
     endif()
-  elseif(institute IN_LIST OPTIONAL_INSTITUTES)
-    #message(STATUS "${institute} will not be compiled because FABM_${INSTITUTE_UC}_BASE is not set. Please visit https://fabm.net/${institute} for more information.")
   else()
     message(FATAL_ERROR "Source directory for institute ${institute} not found. Please specify FABM_${INSTITUTE_UC}_BASE.")
   endif()
